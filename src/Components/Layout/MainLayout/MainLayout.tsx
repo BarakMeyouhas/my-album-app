@@ -8,6 +8,7 @@ import { store } from "../../redux/Store";
 import { downloadCategoriesAction } from "../../redux/CategoriesReducer";
 import { downloadPhotoAction } from "../../redux/PhotosReducer";
 import MainRoutes from "../../Routs/MainRouts/MainRouts";
+//test
 
 function MainLayout(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
