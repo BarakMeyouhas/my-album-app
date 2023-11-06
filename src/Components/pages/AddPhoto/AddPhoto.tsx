@@ -73,7 +73,7 @@ function AddPhoto(): JSX.Element {
             {...register("description")}
           />
           <br />
-          <select {...register("category")}>
+          <select required {...register("category")}>
             <option disabled>Choose Category</option>
             {store.getState().category.categories.map((item) => (
               <option>{item.name}</option>

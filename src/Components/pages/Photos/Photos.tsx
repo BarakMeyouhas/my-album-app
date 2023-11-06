@@ -22,11 +22,11 @@ function Photos(): JSX.Element {
   };
 
   const showCat = () => {
-    const filtredPhoto = store
+    const filteredPhoto = store
       .getState()
       .photos.allPhotos.filter((item) => item.category == params.catName);
-    console.log(filtredPhoto);
-    return filtredPhoto.map((item) => (
+    console.log(filteredPhoto);
+    return filteredPhoto.map((item) => (
       <div className="Box" style={{ width: 200, height: 230 }}>
         <img src={item.URL} style={photoStyle} />
         <br />
