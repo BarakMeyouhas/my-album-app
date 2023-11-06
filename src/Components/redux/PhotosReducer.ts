@@ -57,6 +57,9 @@ export const photoReducer = (
       newState.allPhotos = action.payload;
       break;
     case PhotoActionType.updatePhoto:
+      newState.allPhotos = newState.allPhotos.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
       break;
   }
 
