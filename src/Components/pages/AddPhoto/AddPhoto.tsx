@@ -26,9 +26,7 @@ function AddPhoto(): JSX.Element {
     data.id = store.getState().photos.allPhotos.length + 1;
     data.time = new Date().toLocaleTimeString();
     data.date = new Date().toDateString();
-    //console.log(data);
     store.dispatch(addPhotoAction(data));
-    //console.log(store.getState().photos.allPhotos);
     localStorage.setItem(
       "photos",
       JSON.stringify(store.getState().photos.allPhotos)

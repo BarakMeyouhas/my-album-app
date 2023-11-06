@@ -49,6 +49,9 @@ export const photoReducer = (
       newState.allPhotos = [...newState.allPhotos, action.payload];
       break;
     case PhotoActionType.deletePhoto:
+      newState.allPhotos = [...newState.allPhotos].filter(
+        (item) => item.id !== action.payload
+      );
       break;
     case PhotoActionType.downloadPhoto:
       newState.allPhotos = action.payload;
@@ -56,6 +59,7 @@ export const photoReducer = (
     case PhotoActionType.updatePhoto:
       break;
   }
+
 
   return newState;
 };
