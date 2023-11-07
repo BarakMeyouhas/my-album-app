@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { store } from "../../redux/Store";
 import "./Photos.css";
 import { deletePhotoAction } from "../../redux/PhotosReducer";
@@ -7,6 +7,7 @@ import { updatePhotoAction } from '../../redux/PhotosReducer';
 import { useState } from "react";
 
 function Photos(): JSX.Element {
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const params = useParams();
   const photoStyle = {
@@ -15,9 +16,7 @@ function Photos(): JSX.Element {
   };
 
   const handleEdit = (photoId: number) => {
-    // Implement edit functionality or navigate to an edit page
-    console.log("Edit photo with ID:", photoId);
-    // Add your logic for editing a photo
+      navigate(`/EditPhoto/${photoId}`);
   };
 
   const handleDelete = (photoId: number) => {

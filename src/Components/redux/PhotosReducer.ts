@@ -57,6 +57,10 @@ export const photoReducer = (
       newState.allPhotos = action.payload;
       break;
     case PhotoActionType.updatePhoto:
+      //For each item in the allPhotos array, this logic checks if the id of the current item matches 
+      //the id contained in the action.payload (which is the updated photo). If there's a match,
+      // it replaces the current item with the action.payload, which holds the updated photo data. 
+      //If there's no match, it keeps the item as it is.
       newState.allPhotos = newState.allPhotos.map((item) =>
         item.id === action.payload.id ? action.payload : item
       );
