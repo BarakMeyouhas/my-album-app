@@ -58,7 +58,7 @@ function Photos(): JSX.Element {
   };
 
   return (
-    <div className="Photos">
+    <div className="Photos" style={{ overflowY: 'auto', maxHeight: '80vh' }}>
       {params.catName && <h2>{params.catName}</h2>}
       <hr />
       {showPhotosByCategory()}

@@ -1,3 +1,7 @@
 .Photos {
-	
+	height: 100%;
+    overflow: auto;
+}
+.Box{
+    margin-bottom: 70px;
 }
