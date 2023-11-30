@@ -20,7 +20,6 @@ function MainLayout(): JSX.Element {
         .then((response) => response.data)
         .then((result) => {
           store.dispatch(downloadCategoriesAction(result));
-          console.log(result);
           setRefresh(true);
         });
     }
@@ -30,7 +29,6 @@ function MainLayout(): JSX.Element {
         .then((response) => response.data)
         .then((result) => {
           store.dispatch(downloadPhotoAction(result));
-          console.log(result);
           setRefresh(true);
         });
     }

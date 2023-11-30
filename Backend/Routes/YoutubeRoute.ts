@@ -93,7 +93,7 @@ youtubeRouter.post(
 );
 
 youtubeRouter.put(
-  "/updateCat/:categoryId",
+  "/updateCat",
   async (request: Request, response: Response, next: NextFunction) => {
     const categoryId = request.params.categoryId;
     const updatedCategory = request.body;
