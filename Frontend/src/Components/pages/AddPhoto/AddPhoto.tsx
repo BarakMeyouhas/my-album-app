@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import { Photo } from "../../Modal/Photo";
 import { addPhotoAction } from "../../redux/PhotosReducer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function AddPhoto(): JSX.Element {
-  //URL, descrption, category, current date (disabled), time (disabled)
+  const [refresh, setRefresh] = useState(false);
   const [clock, setClock] = useState("");
   const [imageURL, setURL] = useState("");
   const navigate = useNavigate();
@@ -22,22 +23,51 @@ function AddPhoto(): JSX.Element {
     formState: { errors },
   } = useForm<Photo>();
 
-  const send = (data: Photo) => {
-    data.id = store.getState().photos.allPhotos.length + 1;
-    data.time = new Date().toLocaleTimeString();
-    data.date = new Date().toDateString();
-    store.dispatch(addPhotoAction(data));
-    localStorage.setItem(
-      "photos",
-      JSON.stringify(store.getState().photos.allPhotos)
-    );
-    navigate("/");
+  const send = async (data: Photo) => {
+    try {
+      const selectedCategory = store.getState().category.categories.find(
+        (category) => category.category_id === Number(data.category_id)
+      );
+  
+      if (!selectedCategory) {
+        console.error("Selected category not found.");
+        return;
+      }
+  
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`;
+  
+      const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
+  
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/album/addPhoto",
+        {
+          URL: data.URL,
+          description: data.description,
+          category_id: selectedCategory.category_id.toString(),
+          date: formattedDate,
+          time: formattedTime,
+        }
+      );
+  
+      const addedPhoto: Photo = response.data;
+  
+      // Dispatch the action to update the state
+      store.dispatch(addPhotoAction(addedPhoto));
+      // Navigate after dispatching the action
+      navigate("/");
+    } catch (error) {
+      console.error("Error adding photo:", error);
+    }
   };
+  
+  
 
   useEffect(() => {
     setInterval(() => {
       setClock(new Date().toLocaleTimeString());
-      //console.log(new Date().toLocaleTimeString());
     }, 900);
   }, []);
 
@@ -55,15 +85,10 @@ function AddPhoto(): JSX.Element {
           <input
             type="url"
             placeholder="enter image url"
-            {...register("URL")}
+            {...register("URL", { required: "URL is required" })}
             onBlur={(e) => setURL(e.target.value)}
           />
           <br />
-          {/* <input
-            type="text"
-            placeholder="enter image description"
-            {...register("description")}
-          /> */}
           <textarea
             placeholder="enter image description"
             rows={3}
@@ -74,7 +99,7 @@ function AddPhoto(): JSX.Element {
           <select required {...register("category_id")}>
             <option disabled>Choose Category</option>
             {store.getState().category.categories.map((item) => (
-              <option>{item.name}</option>
+              <option key={item.category_id} value={item.category_id}>{item.name}</option>
             ))}
           </select>
           <br />

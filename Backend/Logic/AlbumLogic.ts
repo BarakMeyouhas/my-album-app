@@ -1,3 +1,4 @@
+import { Photo } from "../Models/Photo";
 import { categories } from "../Models/Category";
 import dal_mysql from "../Utils/dal_mysql";
 import { OkPacket } from "mysql";
@@ -11,6 +12,24 @@ const getAllPhotos = async () => {
   `;
   const data = await dal_mysql.execute(SQLcmd);
   return data;
+};
+
+const addPhoto = async (newPhoto: Photo) => {
+  const SQLcmd = `
+    INSERT INTO photos
+    (URL, description, category_id, date, time)
+    VALUES
+    ('${newPhoto.URL}', '${newPhoto.description}', ${newPhoto.category_id}, '${newPhoto.date}', '${newPhoto.time}')
+  `;
+  console.log(SQLcmd);
+  const result: OkPacket = await dal_mysql.execute(SQLcmd);
+  return result.insertId;
+};
+
+const deletePhotoById = async (id: number) => {
+  console.log(`delete Photo id ${id}`);
+  const SQLcmd = `DELETE FROM photos WHERE photo_id=${id}`;
+  await dal_mysql.execute(SQLcmd);
 };
 
 //categories logic
@@ -48,4 +67,12 @@ const deleteCatById = async (id: number) => {
   await dal_mysql.execute(SQLcmd);
 };
 
-export { getAllPhotos, getAllCategories, addCat, updateCat, deleteCatById };
+export {
+  getAllPhotos,
+  getAllCategories,
+  addCat,
+  updateCat,
+  deleteCatById,
+  addPhoto,
+  deletePhotoById,
+};

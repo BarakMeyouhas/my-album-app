@@ -1,8 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
-import { addCat, deleteCatById, getAllCategories, getAllPhotos, updateCat } from "../Logic/AlbumLogic";
+import { addCat, addPhoto, deleteCatById, deletePhotoById, getAllCategories, getAllPhotos, updateCat } from "../Logic/AlbumLogic";
 
 const albumRouter = express.Router();
 
+
+//photos router
 albumRouter.get(
   "/photosList",
   async (request: Request, response: Response, next: NextFunction) => {
@@ -11,6 +13,27 @@ albumRouter.get(
   }
 );
 
+albumRouter.post(
+  "/addPhoto",
+  async (request: Request, response: Response, next: NextFunction) => {
+    const newPhoto = request.body;
+    const result = await addPhoto(newPhoto);
+    return response.status(201).json(`${result}`);
+  }
+);
+
+albumRouter.delete(
+  "/deletePhotoById/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    const photoID = +request.params.id;
+    await deletePhotoById(photoID);
+    return response.status(200).json({});
+  }
+);
+
+
+
+//category router
 albumRouter.get(
   "/catList",
   async (request: Request, response: Response, next: NextFunction) => {

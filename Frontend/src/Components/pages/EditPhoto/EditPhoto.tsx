@@ -19,7 +19,7 @@ function EditPhoto(): JSX.Element {
   // Fetch the photo with the given ID
   const initialPhoto = store
     .getState()
-    .photos.allPhotos.find((item) => item.id === Number(params.id));
+    .photos.allPhotos.find((item) => item.photo_id === Number(params.id));
 
   // Initialize the state with the found photo or an empty photo
   const [photo, setPhoto] = useState<Photo>(
@@ -39,7 +39,7 @@ function EditPhoto(): JSX.Element {
     store.dispatch(updatePhotoAction(photo));
     const allPhotos = store.getState().photos.allPhotos; // Get all photos from the store
     const updatedPhoto = allPhotos.map((item) =>
-      item.id === photo.id ? photo : item
+      item.photo_id === photo.photo_id ? photo : item
     ); // Replace the modified photo
     localStorage.setItem("photos", JSON.stringify(updatedPhoto)); // Update the local storage with the updated photo data
     navigate("/");
@@ -49,7 +49,7 @@ function EditPhoto(): JSX.Element {
   useEffect(() => {
     const updatedPhoto = store
       .getState()
-      .photos.allPhotos.find((item) => item.id === Number(params.id));
+      .photos.allPhotos.find((item) => item.photo_id === Number(params.id));
     if (updatedPhoto) {
       setPhoto(updatedPhoto);
     }
