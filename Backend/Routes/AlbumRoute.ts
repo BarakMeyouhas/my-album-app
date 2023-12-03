@@ -1,8 +1,16 @@
 import express, { NextFunction, Request, Response } from "express";
-import { addCat, addPhoto, deleteCatById, deletePhotoById, getAllCategories, getAllPhotos, updateCat } from "../Logic/AlbumLogic";
+import {
+  addCat,
+  addPhoto,
+  deleteCatById,
+  deletePhotoById,
+  getAllCategories,
+  getAllPhotos,
+  updateCat,
+  updatePhoto,
+} from "../Logic/AlbumLogic";
 
 const albumRouter = express.Router();
-
 
 //photos router
 albumRouter.get(
@@ -31,7 +39,13 @@ albumRouter.delete(
   }
 );
 
-
+albumRouter.put(
+  "/updatePhoto",
+  async (request: Request, response: Response, next: NextFunction) => {
+    const photo = request.body;
+    return response.status(201).json(await updatePhoto(photo));
+  }
+);
 
 //category router
 albumRouter.get(
@@ -56,16 +70,20 @@ albumRouter.put(
   async (request: Request, response: Response, next: NextFunction) => {
     const categoryId = +request.params.id;
     const updatedCategory = request.body;
-    const result = await updateCat({ ...updatedCategory, category_id: categoryId });
+    const result = await updateCat({
+      ...updatedCategory,
+      category_id: categoryId,
+    });
 
     if (result) {
       return response.status(200).json({ success: true });
     } else {
-      return response.status(500).json({ success: false, error: "Failed to update category" });
+      return response
+        .status(500)
+        .json({ success: false, error: "Failed to update category" });
     }
   }
 );
-
 
 albumRouter.delete(
   "/deleteCatById/:id",

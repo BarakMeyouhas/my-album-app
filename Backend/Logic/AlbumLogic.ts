@@ -17,9 +17,9 @@ const getAllPhotos = async () => {
 const addPhoto = async (newPhoto: Photo) => {
   const SQLcmd = `
     INSERT INTO photos
-    (URL, description, category_id, date, time)
+    (URL, description, category_id, date)
     VALUES
-    ('${newPhoto.URL}', '${newPhoto.description}', ${newPhoto.category_id}, '${newPhoto.date}', '${newPhoto.time}')
+    ('${newPhoto.URL}', '${newPhoto.description}', ${newPhoto.category_id}, '${newPhoto.date}')
   `;
   console.log(SQLcmd);
   const result: OkPacket = await dal_mysql.execute(SQLcmd);
@@ -30,6 +30,16 @@ const deletePhotoById = async (id: number) => {
   console.log(`delete Photo id ${id}`);
   const SQLcmd = `DELETE FROM photos WHERE photo_id=${id}`;
   await dal_mysql.execute(SQLcmd);
+};
+
+const updatePhoto = async (photo: Photo) => {
+  const SQLcmd = `
+    UPDATE photos 
+    SET URL = '${photo.URL}', description = '${photo.description}', category_id = '${photo.category_id}', date = '${photo.date}'
+    WHERE photo_id = ${photo.photo_id};
+  `;
+  await dal_mysql.execute(SQLcmd);
+  return true;
 };
 
 //categories logic
@@ -75,4 +85,5 @@ export {
   deleteCatById,
   addPhoto,
   deletePhotoById,
+  updatePhoto,
 };
