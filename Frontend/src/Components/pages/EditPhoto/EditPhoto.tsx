@@ -23,7 +23,7 @@ function EditPhoto(): JSX.Element {
 
   // Initialize the state with the found photo or an empty photo
   const [photo, setPhoto] = useState<Photo>(
-    initialPhoto || new Photo(0, "", "", 0, "", "","")
+    initialPhoto || new Photo(0, "", "", 0, "", "")
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

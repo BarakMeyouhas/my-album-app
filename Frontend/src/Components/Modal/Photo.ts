@@ -3,18 +3,16 @@ export class Photo {
     public photo_id: number;
     public URL: string;
     public description: string;
-    public category_id: number;
+    public category_id: number | undefined;
     public date: string;
-    public time: string;
     public categoryName: string;
   
     constructor(
       photo_id: number,
       URL: string,
       description: string,
-      category_id: number,
+      category_id: number | undefined,
       date: string,
-      time: string,
       categoryName: string,
     ) {
       this.photo_id = photo_id;
@@ -22,7 +20,6 @@ export class Photo {
       this.description = description;
       this.category_id = category_id;
       this.date = date;
-      this.time = time;
       this.categoryName = categoryName;
     }
   }
