@@ -77,7 +77,12 @@ export function Menu({
             </ListItemIcon>
             <ListItemText primary="Category Management" />
           </ListItem>
-
+          <ListItem component={MyNavLink} to="/explore" activeClassName="active" exact>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Explore" />
+          </ListItem>
           <ListItem component={MyNavLink} to="/about" activeClassName="active">
             <ListItemIcon>
               <InfoIcon />

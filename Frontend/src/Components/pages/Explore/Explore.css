@@ -1,0 +1,13 @@
+.Image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-bottom: 50px; /* Adjust the padding as needed */
+  }
+  
+  .Box {
+    margin: 10px; /* Add margin for spacing between image boxes */
+  }
+  
+  /* Add other styles as needed */

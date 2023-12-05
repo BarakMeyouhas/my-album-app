@@ -37,22 +37,18 @@ function MainLayout(): JSX.Element {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-
   };
   return (
     <div className="MainLayout">
       <header>
         <Header handleDrawerToggle={handleDrawerToggle} />
       </header>
-      <div className="categories">
-        <Categories />
-      </div>
-      <aside>
-        <Menu open={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-      </aside>
       <main>
         <MainRoutes />
       </main>
+      <aside>
+        <Menu open={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+      </aside>
       <footer>
         <Footer />
       </footer>

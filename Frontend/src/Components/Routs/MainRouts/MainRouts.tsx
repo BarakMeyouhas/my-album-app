@@ -4,6 +4,7 @@ import Photos from "../../pages/Photos/Photos";
 import Page404 from "../../pages/Page404/Page404";
 import AddCategory from "../../pages/AddCategory/AddCategory";
 import AddPhoto from "../../pages/AddPhoto/AddPhoto";
+import Explore from "../../pages/Explore/Explore";
 
 
 function MainRoutes(): JSX.Element {
@@ -14,6 +15,7 @@ function MainRoutes(): JSX.Element {
         <Route path="/addCategory" element={<AddCategory />} />
         <Route path="/cat/:categoryName" element={<Photos />} />
         <Route path="/addPhoto" element={<AddPhoto />} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </div>

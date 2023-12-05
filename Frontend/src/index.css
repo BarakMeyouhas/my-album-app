@@ -5,7 +5,7 @@ body,
   padding: 0;
   height: 100%;
   text-align: center;
-  background-image: linear-gradient(45deg, white, rgb(165, 165, 248));
+  background-color: #e1f5fe;
 }
 
 .Picture {
