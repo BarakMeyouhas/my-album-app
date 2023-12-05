@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Explore.css";
+import {
+  Button,
+  Container,
+  IconButton,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 
 interface PexelsImage {
   id: number;
   photographer: string;
+  photographer_url: string;
+  alt: string;
   src: {
     original: string;
   };
@@ -22,7 +33,7 @@ function Explore(): JSX.Element {
   const fetchData = async (page: number) => {
     const apiKey = "OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a";
     const apiUrl = "https://api.pexels.com/v1/curated";
-    const perPage = 30;
+    const perPage = 18;
 
     const axiosConfig = {
       headers: {
@@ -31,7 +42,8 @@ function Explore(): JSX.Element {
       params: {
         per_page: perPage,
         page: page,
-        order_by: "random", // Add this line for random ordering
+        order_by: "random",
+        seed: Math.random(), // Add this line for random ordering
       },
     };
 
@@ -57,30 +69,55 @@ function Explore(): JSX.Element {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
+  
 
   return (
     <div className="Image-container">
       <h2>Explore</h2>
-      <div className="">
-        {images.map((image) => (
-          <div
-            key={image.id}
-            style={{ width: 200, height: 230 }}
-            className="Box"
-          >
-            <br />
-            <img
-              src={image.src.original}
-              style={photoStyle}
-              alt={image.photographer}
-            />
-            <p>{image.photographer}</p>
-          </div>
-        ))}
+      <div>
+        <Button variant="contained" onClick={handlePrevPage}>
+          Previous
+        </Button>
+        <Button variant="contained" onClick={handleNextPage}>
+          Next
+        </Button>
+      </div>
+      <div className="Explore">
+        <Container maxWidth="xl">
+          <ImageList cols={3} gap={12}>
+            {images.map((item) => (
+              <ImageListItem key={item.id}>
+                <img
+                  srcSet={`${item.src.original}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  src={`${item.src.original}?w=248&fit=crop&auto=format`}
+                  alt={item.alt}
+                  loading="lazy"
+                />
+                <ImageListItemBar
+                  title={item.alt}
+                  subtitle={item.photographer}
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                      aria-label={`info about ${item.photographer}`}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Container>
       </div>
       <div>
-        <button onClick={handlePrevPage}>Previous</button>
-        <button onClick={handleNextPage}>Next</button>
+        <Button sx={{mr:"5px"}} variant="contained" onClick={handlePrevPage}>
+          Previous
+        </Button>
+        
+        <Button variant="contained" onClick={handleNextPage}>
+          Next
+        </Button>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export function Menu({
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="All Photos" />
+            <ListItemText primary="My Photos" />
           </ListItem>
           <ListItem
             component={MyNavLink}

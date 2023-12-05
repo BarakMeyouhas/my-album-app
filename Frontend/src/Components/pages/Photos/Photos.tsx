@@ -10,11 +10,13 @@ import { updatePhotoAction } from "../../redux/PhotosReducer";
 import {
   Button,
   Chip,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -24,6 +26,15 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { Photo } from "../../Modal/Photo";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import ListSubheader from "@mui/material/ListSubheader";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 function Photos(): JSX.Element {
   useEffect(() => {
@@ -65,7 +76,6 @@ function Photos(): JSX.Element {
       .photos.allPhotos.find((item) => item.photo_id === photoId);
 
     if (selectedPhoto) {
-      // Open the dialog with the selected photo details
       setEditDialogData(selectedPhoto);
       setEditDialogOpen(true);
     }
@@ -104,9 +114,8 @@ function Photos(): JSX.Element {
         updatedData
       );
       store.dispatch(updatePhotoAction(updatedData));
-      
+
       setEditDialogOpen(false);
-      
     } catch (error) {}
   };
 
@@ -120,7 +129,7 @@ function Photos(): JSX.Element {
     } catch (error) {
       console.error("Error deleting photo:", error);
     } finally {
-      setDeleteDialogOpen(false); // Close the delete confirmation dialog
+      setDeleteDialogOpen(false);
     }
   };
 
@@ -131,35 +140,50 @@ function Photos(): JSX.Element {
         !params.categoryName || item.categoryName === params.categoryName
     );
 
-    return filteredPhotos.map((item) => (
-      <div
-        key={item.photo_id}
-        className="Box"
-        style={{ width: 200, height: 230 }}
-      >
-        <img src={item.URL} style={photoStyle} alt={item.description} />
-        <br />
-        <br />
-        {item.description}
-        <br />
-        {item.date}
-        <div>
-          <div>
-            <strong>Category: {item.categoryName}</strong>
-          </div>
-          <Chip label="Edit" onClick={() => handleEdit(item.photo_id)}></Chip>
-          <Chip
-            label="Delete"
-            deleteIcon={<DeleteIcon />}
-            onClick={() => {
-              setSelectedPhotoId(item.photo_id); // Set the selected photo ID before opening the dialog
-              setDeleteDialogOpen(true);
-            }}
-            variant="outlined"
-          />
-        </div>
-      </div>
-    ));
+    return (
+      <Container maxWidth="md">
+        <ImageList cols={3} gap={12}>
+          {filteredPhotos.map((item) => (
+            <ImageListItem key={item.photo_id}>
+              <img
+                srcSet={`${item.URL}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.URL}?w=248&fit=crop&auto=format`}
+                alt={item.description}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                title={item.description}
+                subtitle={item.categoryName}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                    aria-label={`info about ${item.description}`}
+                  >
+                    <InfoIcon />
+                    <Grid
+                      onClick={() => handleEdit(item.photo_id)}
+                      sx={{ color: "white" }}
+                    >
+                      <EditIcon />
+                    </Grid>
+                    <Grid
+                      onClick={() => {
+                        setSelectedPhotoId(item.photo_id); // Set the selected photo ID before opening the dialog
+                        setDeleteDialogOpen(true);
+                      }}
+                      item
+                      xs={8}
+                    >
+                      <DeleteForeverIcon />
+                    </Grid>
+                  </IconButton>
+                }
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Container>
+    );
   };
 
   return (

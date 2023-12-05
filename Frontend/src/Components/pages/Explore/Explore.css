@@ -4,10 +4,15 @@
     align-items: center;
     justify-content: flex-start;
     padding-bottom: 50px; /* Adjust the padding as needed */
+    height: 100%;
+    overflow: auto;
   }
   
   .Box {
     margin: 10px; /* Add margin for spacing between image boxes */
+  }
+  .Explore{
+    
   }
   
   /* Add other styles as needed */
