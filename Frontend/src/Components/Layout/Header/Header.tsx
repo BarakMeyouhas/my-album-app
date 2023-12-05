@@ -1,13 +1,21 @@
 import "./Header.css";
 import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, Drawer, List, ListItem } from "@mui/material";
+import {
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  Box,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import MuiAppBar from "@mui/material/AppBar";
 
 const HeaderContainer = styled("div")({
   display: "flex",
@@ -61,56 +69,60 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Header = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const toggleDrawer =
-    (open: boolean | ((prevState: boolean) => boolean)) => () => {
-      setIsDrawerOpen(open);
-    };
+const AppBar = styled(MuiAppBar)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+}));
 
+const Header = ({
+  handleDrawerToggle,
+}: {
+  handleDrawerToggle: () => void;
+}): JSX.Element => {
   return (
     <div className="Header">
-      <AppBar position="static" sx={{ backgroundColor: '#263238' }}>
-        <Toolbar>
-          <HeaderContainer>
-            <LeftContainer>
+      <ThemeProvider theme={createTheme()}>
+        <Box sx={{ display: "flex" }}>
+          <AppBar sx={{ backgroundColor: "#263238" }}>
+            <Toolbar>
               <IconButton
-                size="large"
-                edge="start"
                 color="inherit"
                 aria-label="open drawer"
-                sx={{ mr: 2 }}
-                onClick={toggleDrawer(true)}
+                edge="start"
+                onClick={handleDrawerToggle}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap>
-                My Photo Album
-              </Typography>
-            </LeftContainer>
-          </HeaderContainer>
-          <RightContainer>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </RightContainer>
-        </Toolbar>
-      </AppBar>
-      <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>
-        <List>
-          <ListItem button>
-            {/* Add your drawer items here */}
-            {/* Example: <ListItemText primary="Drawer Item 1" /> */}
-          </ListItem>
-        </List>
-      </Drawer>
+              <LeftContainer>
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  sx={{ flexGrow: 1 }}
+                >
+                  My Photo Album
+                </Typography>
+              </LeftContainer>
+              <RightContainer>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search…"
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+              </RightContainer>
+            </Toolbar>
+          </AppBar>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };
