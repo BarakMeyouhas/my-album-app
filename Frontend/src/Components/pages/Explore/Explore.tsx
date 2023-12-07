@@ -42,10 +42,9 @@ function Explore(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<PexelsImage | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const { params } = useParams();
+  const [sortingOption, setSortingOption] = useState("popular"); // Default sorting option
+  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
   const navigate = useNavigate();
-
 
   const fetchData = async (page: number) => {
     const apiKey = "OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a";

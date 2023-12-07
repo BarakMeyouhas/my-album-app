@@ -9,9 +9,7 @@ import axios from "axios";
 import { TextField } from "@mui/material";
 
 function AddPhoto(): JSX.Element {
-  const [refresh, setRefresh] = useState(false);
-  const [clock, setClock] = useState("");
-  var [imageURL, setURL] = useState("");
+  const [imageURL, setURL] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -98,14 +96,12 @@ function AddPhoto(): JSX.Element {
     }
   };
 
-  const myDesign = { marginTop: 50, width: 300 };
-
   return (
     <div
       style={{ display: "flex", justifyContent: "center" }}
       className="AddPhoto"
     >
-      <div className="Box" style={myDesign}>
+      <div className="Box">
         <form onSubmit={handleSubmit(send)}>
           <h3>Add Photo</h3>
           <hr />
@@ -135,12 +131,11 @@ function AddPhoto(): JSX.Element {
           </select>
           <br />
           {new Date().toDateString()} <br />
-          {clock}
           <br />
           <button>Add Photo</button>
         </form>
       </div>
-      <div className="Box" style={myDesign}>
+      <div className="Box">
         {imageURL && (
           <div>
             <h3>Image Preview</h3>
