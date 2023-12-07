@@ -36,6 +36,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 
+
 function Photos(): JSX.Element {
   useEffect(() => {
     if (store.getState().photos.allPhotos.length < 1) {
