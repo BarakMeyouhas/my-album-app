@@ -302,7 +302,7 @@ function Photos(): JSX.Element {
             <img
               src={selectedPhotoUrl}
               alt="Selected Photo"
-              style={{ maxWidth: "500px", maxHeight: "350px" }}
+              style={{ width: "100%", maxHeight: "100%", objectFit: "contain" }}
             />
           )}
         </DialogContent>
