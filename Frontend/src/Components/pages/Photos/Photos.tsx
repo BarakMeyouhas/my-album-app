@@ -14,6 +14,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   FormControl,
   Grid,
@@ -21,6 +22,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Slide,
   TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,8 +36,8 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-
-
+import React from "react";
+import { TransitionProps } from "@mui/material/transitions";
 
 function Photos(): JSX.Element {
   useEffect(() => {
@@ -56,10 +58,16 @@ function Photos(): JSX.Element {
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false); // State to control the visibility of the delete confirmation dialog
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editDialogData, setEditDialogData] = useState<Photo | null>(null);
-
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined
   );
+  const [isPhotoDialogOpen, setPhotoDialogOpen] = useState(false);
+  const [selectedPhotoUrl, setSelectedPhotoUrl] = useState<string | null>(null);
+
+  const handlePhotoClick = (url: string) => {
+    setSelectedPhotoUrl(url);
+    setPhotoDialogOpen(true);
+  };
 
   const handleCategoryChange = (event: SelectChangeEvent<number>) => {
     console.log("Selected Category:", event.target.value);
@@ -87,7 +95,6 @@ function Photos(): JSX.Element {
         console.error("Edit data is missing.");
         return;
       }
-
       const updatedDescription =
         (document.getElementById("photoDescription") as HTMLInputElement)
           ?.value || editDialogData.description;
@@ -145,7 +152,18 @@ function Photos(): JSX.Element {
       <Container maxWidth="md">
         <ImageList cols={3} gap={12}>
           {filteredPhotos.map((item) => (
-            <ImageListItem key={item.photo_id}>
+            <ImageListItem
+              className="SingleItem"
+              key={item.photo_id}
+              sx={{
+                "&:hover .MuiImageListItemBar-root": {
+                  visibility: "visible",
+                  opacity: 1,
+                },
+                cursor: "pointer", // Add cursor pointer for indicating it's clickable
+              }}
+              onClick={() => handlePhotoClick(item.URL)}
+            >
               <img
                 srcSet={`${item.URL}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 src={`${item.URL}?w=248&fit=crop&auto=format`}
@@ -155,6 +173,11 @@ function Photos(): JSX.Element {
               <ImageListItemBar
                 title={item.description}
                 subtitle={item.categoryName}
+                sx={{
+                  visibility: "hidden",
+                  opacity: 0,
+                  transition: "visibility 0s, opacity 0.5s linear",
+                }}
                 actionIcon={
                   <IconButton
                     sx={{ color: "rgba(255, 255, 255, 0.54)" }}
@@ -163,13 +186,13 @@ function Photos(): JSX.Element {
                     <InfoIcon />
                     <Grid
                       onClick={() => handleEdit(item.photo_id)}
-                      sx={{ color: "white" }}
+                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                     >
                       <EditIcon />
                     </Grid>
                     <Grid
                       onClick={() => {
-                        setSelectedPhotoId(item.photo_id); // Set the selected photo ID before opening the dialog
+                        setSelectedPhotoId(item.photo_id);
                         setDeleteDialogOpen(true);
                       }}
                       item
@@ -193,6 +216,7 @@ function Photos(): JSX.Element {
       <hr />
       {showPhotosByCategory()}
 
+      {/* delete dialog */}
       <Dialog
         open={isDeleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -214,6 +238,7 @@ function Photos(): JSX.Element {
         </DialogActions>
       </Dialog>
 
+      {/* edit dialog */}
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
         <DialogTitle>Edit Photo Details</DialogTitle>
         <DialogContent>
@@ -265,6 +290,23 @@ function Photos(): JSX.Element {
             Save
           </Button>
         </DialogActions>
+      </Dialog>
+
+      {/* photo click dialog */}
+      <Dialog
+        open={isPhotoDialogOpen}
+        onClose={() => setPhotoDialogOpen(false)}
+      >
+        <DialogTitle>Selected Photo</DialogTitle>
+        <DialogContent>
+          {selectedPhotoUrl && (
+            <img
+              src={selectedPhotoUrl}
+              alt="Selected Photo"
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
+            />
+          )}
+        </DialogContent>
       </Dialog>
     </div>
   );

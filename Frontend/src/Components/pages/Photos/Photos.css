@@ -1,7 +1,13 @@
 .Photos {
-	height: 100%;
+    height: 100%;
     overflow: auto;
 }
-.Box{
+
+.Box {
     margin-bottom: 70px;
+}
+
+.SingleItem:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
 }

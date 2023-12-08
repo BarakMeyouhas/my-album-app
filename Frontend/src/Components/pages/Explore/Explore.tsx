@@ -30,7 +30,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-interface PexelsImage {
+interface PixelsImage {
   id: number;
   photographer: string;
   photographer_url: string;
@@ -46,20 +46,21 @@ interface PexelsImage {
 }
 
 function Explore(): JSX.Element {
-  const [images, setImages] = useState<PexelsImage[]>([]);
+  const [images, setImages] = useState<PixelsImage[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedImage, setSelectedImage] = useState<PexelsImage | null>(null);
+  const [selectedImage, setSelectedImage] = useState<PixelsImage | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   const fetchData = async (page: number, query?: string) => {
     const apiKey = "OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a";
+    const perPage = 80; // Set a large value
+  
     const apiUrl = query
       ? `https://api.pexels.com/v1/search?query=${query}`
       : "https://api.pexels.com/v1/curated";
-    const perPage = 80;
-
+  
     const axiosConfig = {
       headers: {
         Authorization: apiKey,
@@ -71,19 +72,27 @@ function Explore(): JSX.Element {
         seed: Math.random(),
       },
     };
-
+  
     try {
       const response = await axios.get(apiUrl, axiosConfig);
       setImages(response.data.photos);
-      console.log(response.data.photos);
+      console.log("Array of photos:", response.data.photos);
     } catch (error) {
-      console.error("Error fetching data from Pexels API:", error);
+      console.error("Error fetching data from Pixels API:", error);
     }
   };
+  //onClick function works , but the pagination is not working well
+  //================================================================
+  // useEffect(() => {
+  //   fetchData(currentPage);
+  // }, [currentPage]);
 
+
+  //for getting all the images by search value...
+  //================================================================
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
+    fetchData(currentPage, searchValue);
+  }, [currentPage, searchValue]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -95,7 +104,7 @@ function Explore(): JSX.Element {
     }
   };
 
-  const handleImageClick = (image: PexelsImage) => {
+  const handleImageClick = (image: PixelsImage) => {
     setSelectedImage(image);
     setDialogOpen(true);
   };
@@ -151,10 +160,10 @@ function Explore(): JSX.Element {
                   }}
                   variant="standard"
                   value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}  
+                  onChange={(e) => setSearchValue(e.target.value)}
                 />
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <div>
                   <button
                     id="searchButton"
@@ -163,11 +172,11 @@ function Explore(): JSX.Element {
                     type="button"
                     onClick={handleSearchClick}
                   >
-                    <div className="MuiBox-root css-xhsuqu"></div>Search Photos
+                    <div className="MuiBox-root css-shufu"></div>Search Photos
                     <span className="MuiTouchRipple-root css-w0pj6f"></span>
                   </button>
                 </div>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Toolbar>
         </AppBar>
