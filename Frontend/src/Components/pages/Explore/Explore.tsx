@@ -82,8 +82,8 @@ function Explore(): JSX.Element {
   };
 
   useEffect(() => {
-    fetchData(currentPage, searchValue);
-  }, [currentPage, searchValue]);
+    fetchData(currentPage);
+  }, [currentPage]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -151,7 +151,7 @@ function Explore(): JSX.Element {
                   }}
                   variant="standard"
                   value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}  
                 />
               </Grid>
               <Grid item>
