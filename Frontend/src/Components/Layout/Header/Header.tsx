@@ -17,11 +17,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 
-const HeaderContainer = styled("div")({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-});
 
 const LeftContainer = styled("div")({
   display: "flex",

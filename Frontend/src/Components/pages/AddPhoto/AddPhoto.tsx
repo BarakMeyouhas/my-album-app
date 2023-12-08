@@ -36,7 +36,6 @@ function AddPhoto(): JSX.Element {
   } = useForm<Photo>();
 
   const send = async (data: Photo) => {
-    // Use data.URL directly for the check
     if (!imageURL) {
       console.error("URL is required");
       return;

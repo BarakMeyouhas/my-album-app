@@ -2,20 +2,33 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Explore.css";
 import {
+  AppBar,
+  Box,
   Button,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   IconButton,
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  InputBase,
   Paper,
+  TextField,
+  ThemeProvider,
+  Toolbar,
+  Tooltip,
+  alpha,
+  createTheme,
+  styled,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate, useParams } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 interface PexelsImage {
   id: number;
@@ -32,23 +45,19 @@ interface PexelsImage {
   };
 }
 
-const photoStyle = {
-  width: 200,
-  height: 200,
-};
-
 function Explore(): JSX.Element {
   const [images, setImages] = useState<PexelsImage[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<PexelsImage | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [sortingOption, setSortingOption] = useState("popular"); // Default sorting option
-  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
-  const fetchData = async (page: number) => {
+  const fetchData = async (page: number, query?: string) => {
     const apiKey = "OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a";
-    const apiUrl = "https://api.pexels.com/v1/curated";
+    const apiUrl = query
+      ? `https://api.pexels.com/v1/search?query=${query}`
+      : "https://api.pexels.com/v1/curated";
     const perPage = 80;
 
     const axiosConfig = {
@@ -73,8 +82,8 @@ function Explore(): JSX.Element {
   };
 
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
+    fetchData(currentPage, searchValue);
+  }, [currentPage, searchValue]);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -98,10 +107,17 @@ function Explore(): JSX.Element {
   const handleAddPhoto = () => {
     if (selectedImage) {
       // Navigate to the addPhoto component with the selected image URL as a parameter
-      navigate(`/addPhoto?params=${encodeURIComponent(selectedImage.src.original)}`);
+      navigate(
+        `/addPhoto?params=${encodeURIComponent(selectedImage.src.original)}`
+      );
       var imageURL = selectedImage.src.original;
-      console.log("image url from explore:" +  imageURL);
+      console.log("image url from explore:" + imageURL);
     }
+  };
+
+  const handleSearchClick = () => {
+    // Trigger search with the current search value
+    fetchData(1, searchValue);
   };
 
   return (
@@ -110,6 +126,54 @@ function Explore(): JSX.Element {
       className="Image-container"
     >
       <h2>Explore</h2>
+      <Container style={{ maxWidth: "50%" }}>
+        <AppBar
+          position="static"
+          color="default"
+          elevation={0}
+          sx={{
+            borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+            borderRadius: "15px",
+          }}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <SearchIcon color="inherit" sx={{ display: "block" }} />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  placeholder="Enter photo topic..."
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: { fontSize: "default" },
+                  }}
+                  variant="standard"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <div>
+                  <button
+                    id="searchButton"
+                    className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-fullWidth css-1rad2qp"
+                    tabIndex={0}
+                    type="button"
+                    onClick={handleSearchClick}
+                  >
+                    <div className="MuiBox-root css-xhsuqu"></div>Search Photos
+                    <span className="MuiTouchRipple-root css-w0pj6f"></span>
+                  </button>
+                </div>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+      </Container>
+      <br />
+      <br />
       <div>
         <Button sx={{ mr: "5px" }} variant="contained" onClick={handlePrevPage}>
           Previous
@@ -156,6 +220,8 @@ function Explore(): JSX.Element {
           Next
         </Button>
       </div>
+
+      {/* Dialog Form */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Image Details</DialogTitle>
         <DialogContent>
