@@ -56,11 +56,11 @@ function Explore(): JSX.Element {
   const fetchData = async (page: number, query?: string) => {
     const apiKey = "OQ9XdBxhpTSqIJb7fvEGfw7uYXnDxrOSiPAooXzMiu8yQyen9aiGou7a";
     const perPage = 80; // Set a large value
-  
+
     const apiUrl = query
       ? `https://api.pexels.com/v1/search?query=${query}`
       : "https://api.pexels.com/v1/curated";
-  
+
     const axiosConfig = {
       headers: {
         Authorization: apiKey,
@@ -72,7 +72,7 @@ function Explore(): JSX.Element {
         seed: Math.random(),
       },
     };
-  
+
     try {
       const response = await axios.get(apiUrl, axiosConfig);
       setImages(response.data.photos);
@@ -81,12 +81,6 @@ function Explore(): JSX.Element {
       console.error("Error fetching data from Pixels API:", error);
     }
   };
-  //onClick function works , but the pagination is not working well
-  //================================================================
-  // useEffect(() => {
-  //   fetchData(currentPage);
-  // }, [currentPage]);
-
 
   //for getting all the images by search value...
   //================================================================
@@ -115,7 +109,6 @@ function Explore(): JSX.Element {
 
   const handleAddPhoto = () => {
     if (selectedImage) {
-      // Navigate to the addPhoto component with the selected image URL as a parameter
       navigate(
         `/addPhoto?params=${encodeURIComponent(selectedImage.src.original)}`
       );
@@ -163,20 +156,6 @@ function Explore(): JSX.Element {
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
               </Grid>
-              {/* <Grid item>
-                <div>
-                  <button
-                    id="searchButton"
-                    className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-fullWidth MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-fullWidth css-1rad2qp"
-                    tabIndex={0}
-                    type="button"
-                    onClick={handleSearchClick}
-                  >
-                    <div className="MuiBox-root css-shufu"></div>Search Photos
-                    <span className="MuiTouchRipple-root css-w0pj6f"></span>
-                  </button>
-                </div>
-              </Grid> */}
             </Grid>
           </Toolbar>
         </AppBar>

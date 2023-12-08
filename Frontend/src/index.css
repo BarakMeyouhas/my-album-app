@@ -3,14 +3,11 @@ body,
 #root {
   margin: 0;
   padding: 0;
-  height: 100%;
-  text-align: center;
-  background-color: #e1f5fe;
 }
 
 .Picture {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid rgb(162, 162, 162);
   padding: 20px;
   margin: 10px;
   border-radius: 10px;

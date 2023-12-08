@@ -211,9 +211,8 @@ function Photos(): JSX.Element {
   };
 
   return (
-    <div className="Photos" style={{ overflowY: "auto", maxHeight: "80vh" }}>
+    <div className="Photos">
       {params.categoryName && <h2>{params.categoryName}</h2>}
-      <hr />
       {showPhotosByCategory()}
 
       {/* delete dialog */}
@@ -303,7 +302,7 @@ function Photos(): JSX.Element {
             <img
               src={selectedPhotoUrl}
               alt="Selected Photo"
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
+              style={{ maxWidth: "500px", maxHeight: "350px" }}
             />
           )}
         </DialogContent>
