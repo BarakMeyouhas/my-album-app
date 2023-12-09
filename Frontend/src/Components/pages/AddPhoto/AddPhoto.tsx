@@ -6,12 +6,28 @@ import { Photo } from "../../Modal/Photo";
 import { addPhotoAction } from "../../redux/PhotosReducer";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { TextField } from "@mui/material";
+import {
+  Container,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Typography,
+  Box,
+  InputLabel,
+  SelectChangeEvent,
+  FormControl,
+} from "@mui/material";
 
 function AddPhoto(): JSX.Element {
   const [imageURL, setURL] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [category, setCategory] = useState("");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
+  };
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -24,10 +40,6 @@ function AddPhoto(): JSX.Element {
     }
   }, [location]);
 
-  const previewStyle = {
-    width: 300,
-    margin: 10,
-  };
   //form
   const {
     register,
@@ -96,53 +108,74 @@ function AddPhoto(): JSX.Element {
   };
 
   return (
-    <div
-      style={{ display: "flex", justifyContent: "center" }}
-      className="AddPhoto"
-    >
-      <div className="Box">
-        <form onSubmit={handleSubmit(send)}>
-          <h3>Add Photo</h3>
-          <hr />
-          <TextField
-            id="imageUrl"
-            type="text"
-            placeholder="enter image url"
-            {...register("URL")}
-            onChange={(e) => setURL(e.target.value)}
-            value={imageURL}
-          />
-          <br />
-          <textarea
-            placeholder="enter image description"
-            rows={3}
-            style={{ width: 300 }}
-            {...register("description")}
-          />
-          <br />
-          <select required {...register("category_id")}>
-            <option disabled>Choose Category</option>
-            {store.getState().category.categories.map((item) => (
-              <option key={item.category_id} value={item.category_id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <br />
-          {new Date().toDateString()} <br />
-          <br />
-          <button>Add Photo</button>
-        </form>
+    <Container maxWidth="md">
+      <Box id="Header" sx={{ mb: 2 }}>
+        <Typography variant="h5">Add Photo Form</Typography>
+      </Box>
+
+      <div className="AddPhoto" style={{ display: "flex" }}>
+        <Box className="Box" sx={{ mr: 2, border: "none", maxWidth: "50%" }}>
+          <form onSubmit={handleSubmit(send)}>
+            <Typography variant="h6">Add Photo</Typography>
+            <hr />
+
+            <TextField
+              id="imageUrl"
+              type="text"
+              label="Image URL"
+              placeholder="Enter image URL"
+              {...register("URL")}
+              onChange={(e) => setURL(e.target.value)}
+              value={imageURL}
+              fullWidth
+              margin="normal"
+            />
+
+            <TextField
+              multiline
+              rows={3}
+              label="Image Description"
+              placeholder="Enter image description"
+              {...register("description")}
+              fullWidth
+              margin="normal"
+            />
+
+            <select required {...register("category_id")}>
+              <option disabled>Choose Category</option>
+              {store.getState().category.categories.map((item) => (
+                <option key={item.category_id} value={item.category_id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <Typography>{new Date().toDateString()}</Typography>
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
+              Add Photo
+            </Button>
+          </form>
+        </Box>
+
+        <Box className="Box" sx={{ ml: 2, border: "none" }}>
+          {imageURL && (
+            <div>
+              <Typography variant="h6">Image Preview</Typography>
+              <img
+                src={imageURL}
+                alt={imageURL}
+                style={{ maxWidth: "100%", maxHeight: "350px" }}
+              />
+            </div>
+          )}
+        </Box>
       </div>
-      <div className="Box">
-        {imageURL && (
-          <div>
-            <h3>Image Preview</h3>
-            <img src={imageURL} alt={imageURL} style={previewStyle} />
-          </div>
-        )}
-      </div>
-    </div>
+    </Container>
   );
 }
 

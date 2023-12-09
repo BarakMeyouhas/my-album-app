@@ -20,10 +20,12 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   SelectChangeEvent,
   Slide,
   TextField,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -36,8 +38,7 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import React from "react";
-import { TransitionProps } from "@mui/material/transitions";
+import { styled } from "@mui/material/styles";
 
 function Photos(): JSX.Element {
   useEffect(() => {
@@ -78,6 +79,12 @@ function Photos(): JSX.Element {
     width: 200,
     height: 200,
   };
+
+  const Div = styled("div")(({ theme }) => ({
+    ...theme.typography.button,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
+  }));
 
   const handleEdit = (photoId: number) => {
     const selectedPhoto = store
@@ -150,6 +157,7 @@ function Photos(): JSX.Element {
 
     return (
       <Container maxWidth="md">
+        <Div id="Header">{"My Photos"}</Div>
         <ImageList cols={3} gap={12}>
           {filteredPhotos.map((item) => (
             <ImageListItem
@@ -299,11 +307,12 @@ function Photos(): JSX.Element {
         <DialogTitle>Selected Photo</DialogTitle>
         <DialogContent>
           {selectedPhotoUrl && (
-            <img
-              src={selectedPhotoUrl}
-              alt="Selected Photo"
-              style={{ width: "100%", maxHeight: "100%", objectFit: "contain" }}
-            />
+            <Paper square elevation={3}>
+              <img
+                src={selectedPhotoUrl}
+                style={{ maxWidth: "500px", maxHeight: "350px" }}
+              />
+            </Paper>
           )}
         </DialogContent>
       </Dialog>

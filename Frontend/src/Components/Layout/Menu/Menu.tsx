@@ -51,6 +51,17 @@ export function Menu({
         <h2>Main Menu</h2>
         <Divider />
         <List>
+          <ListItem
+            component={MyNavLink}
+            to="/explore"
+            activeClassName="active"
+            exact
+          >
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Search Photos" />
+          </ListItem>
           <ListItem component={MyNavLink} to="/" activeClassName="active" exact>
             <ListItemIcon>
               <DashboardIcon />
@@ -76,12 +87,6 @@ export function Menu({
               <CategoryIcon />
             </ListItemIcon>
             <ListItemText primary="Category Management" />
-          </ListItem>
-          <ListItem component={MyNavLink} to="/explore" activeClassName="active" exact>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Explore" />
           </ListItem>
           <ListItem component={MyNavLink} to="/about" activeClassName="active">
             <ListItemIcon>
