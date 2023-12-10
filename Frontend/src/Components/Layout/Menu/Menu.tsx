@@ -58,7 +58,7 @@ export function Menu({
             exact
           >
             <ListItemIcon>
-              <DashboardIcon />
+              <SearchIcon />
             </ListItemIcon>
             <ListItemText primary="Search Photos" />
           </ListItem>

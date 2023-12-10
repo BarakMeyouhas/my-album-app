@@ -100,10 +100,10 @@ const Header = ({
                   noWrap
                   sx={{ flexGrow: 1 }}
                 >
-                  My Photo Album
+                  My Album App
                 </Typography>
               </LeftContainer>
-              <RightContainer>
+              {/* <RightContainer>
                 <Search>
                   <SearchIconWrapper>
                     <SearchIcon />
@@ -113,7 +113,7 @@ const Header = ({
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
-              </RightContainer>
+              </RightContainer> */}
             </Toolbar>
           </AppBar>
         </Box>

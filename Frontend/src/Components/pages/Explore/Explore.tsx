@@ -21,6 +21,7 @@ import {
   ThemeProvider,
   Toolbar,
   Tooltip,
+  Typography,
   alpha,
   createTheme,
   styled,
@@ -127,7 +128,11 @@ function Explore(): JSX.Element {
       style={{ overflowY: "auto", maxHeight: "80vh" }}
       className="Image-container"
     >
-      <h2>Explore</h2>
+      <br />
+      <Box id="Header" sx={{ mb: 2 }}>
+        <Typography variant="h4">Search Photos</Typography>
+      </Box>
+      <br />
       <Container style={{ maxWidth: "50%" }}>
         <AppBar
           position="static"
@@ -162,7 +167,7 @@ function Explore(): JSX.Element {
       </Container>
       <br />
       <br />
-      <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Button sx={{ mr: "5px" }} variant="contained" onClick={handlePrevPage}>
           Previous
         </Button>
@@ -177,6 +182,13 @@ function Explore(): JSX.Element {
               <ImageListItem
                 key={item.id}
                 onClick={() => handleImageClick(item)}
+                sx={{
+                  "&:hover .MuiImageListItemBar-root": {
+                    visibility: "visible",
+                    opacity: 1,
+                  },
+                  cursor: "pointer", // Add cursor pointer for indicating it's clickable
+                }}
               >
                 <img
                   srcSet={`${item.src.original}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -185,25 +197,32 @@ function Explore(): JSX.Element {
                   loading="lazy"
                 />
                 <ImageListItemBar
-                  title={item.alt}
-                  subtitle={item.photographer}
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                      aria-label={`info about ${item.photographer}`}
-                    ></IconButton>
-                  }
-                />
+                title={item.alt}
+                subtitle={item.photographer}
+                sx={{
+                  visibility: "hidden",
+                  opacity: 0,
+                  transition: "visibility 0s, opacity 0.2s linear",
+                }}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                    aria-label={`info about ${item.photographer}`}
+                  >
+                    <InfoIcon />
+                    
+                  </IconButton>
+                }
+              />
               </ImageListItem>
             ))}
           </ImageList>
         </Container>
       </div>
-      <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Button sx={{ mr: "5px" }} variant="contained" onClick={handlePrevPage}>
           Previous
         </Button>
-
         <Button variant="contained" onClick={handleNextPage}>
           Next
         </Button>

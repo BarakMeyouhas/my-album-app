@@ -8,6 +8,7 @@ import {
 } from "../../redux/PhotosReducer";
 import { updatePhotoAction } from "../../redux/PhotosReducer";
 import {
+  Box,
   Button,
   Chip,
   Container,
@@ -33,12 +34,10 @@ import { Photo } from "../../Modal/Photo";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
-import ListSubheader from "@mui/material/ListSubheader";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { styled } from "@mui/material/styles";
 
 function Photos(): JSX.Element {
   useEffect(() => {
@@ -79,12 +78,6 @@ function Photos(): JSX.Element {
     width: 200,
     height: 200,
   };
-
-  const Div = styled("div")(({ theme }) => ({
-    ...theme.typography.button,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1),
-  }));
 
   const handleEdit = (photoId: number) => {
     const selectedPhoto = store
@@ -157,7 +150,11 @@ function Photos(): JSX.Element {
 
     return (
       <Container maxWidth="md">
-        <Div id="Header">{"My Photos"}</Div>
+        <br />
+        <Box id="Header" sx={{ mb: 2 }}>
+          <Typography variant="h4">My Photos</Typography>
+        </Box>
+        <br />
         <ImageList cols={3} gap={12}>
           {filteredPhotos.map((item) => (
             <ImageListItem
@@ -184,7 +181,7 @@ function Photos(): JSX.Element {
                 sx={{
                   visibility: "hidden",
                   opacity: 0,
-                  transition: "visibility 0s, opacity 0.5s linear",
+                  transition: "visibility 0s, opacity 0.2s linear",
                 }}
                 actionIcon={
                   <IconButton

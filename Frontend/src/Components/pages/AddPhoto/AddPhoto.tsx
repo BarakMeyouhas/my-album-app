@@ -9,14 +9,10 @@ import axios from "axios";
 import {
   Container,
   TextField,
-  Select,
-  MenuItem,
   Button,
   Typography,
   Box,
-  InputLabel,
   SelectChangeEvent,
-  FormControl,
 } from "@mui/material";
 
 function AddPhoto(): JSX.Element {
@@ -109,10 +105,11 @@ function AddPhoto(): JSX.Element {
 
   return (
     <Container maxWidth="md">
+      <br />
       <Box id="Header" sx={{ mb: 2 }}>
-        <Typography variant="h5">Add Photo Form</Typography>
+        <Typography variant="h4">Add Photo Form</Typography>
       </Box>
-
+      <br />
       <div className="AddPhoto" style={{ display: "flex" }}>
         <Box className="Box" sx={{ mr: 2, border: "none", maxWidth: "50%" }}>
           <form onSubmit={handleSubmit(send)}>

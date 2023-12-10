@@ -1,4 +1,11 @@
-import { Button, ButtonGroup, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 import "./AddCategory.css";
 import { useEffect, useState } from "react";
 import { Category } from "../../Modal/Category";
@@ -129,8 +136,12 @@ function AddCategory(): JSX.Element {
   };
 
   return (
-    <div className="AddCategory">
-      <div className="Box">
+    <Container sx={{display:"flex", justifyContent:"center"}} className="AddCategory">
+      <Box
+        className="Box"
+        id="addCategory"
+        sx={{ mr: 2, border: "none", maxWidth: "50%" }}
+      >
         <Typography variant="h4" className="Headline">
           Add Category
         </Typography>
@@ -153,39 +164,44 @@ function AddCategory(): JSX.Element {
             Add
           </Button>
         </ButtonGroup>
-      </div>
-      <Table style={{ width: "60%" }}>
-        <TableHead>
-          <TableRow>
-            <TableCell>name</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {store.getState().category.categories.map((item) => (
-            <TableRow key={item.category_id}>
-    <TableCell>{item.name}</TableCell>
-    <TableCell>
-      <IconButton
-        color="primary"
-        onClick={() => handleOpenEditModal(item.category_id, item.name)}
-      >
-        <EditIcon />
-      </IconButton>
-    </TableCell>
-    <TableCell>
-      <IconButton
-        color="error"
-        onClick={() => handleOpen(item.category_id)}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </TableCell>
-  </TableRow>
-))}
-        </TableBody>
-      </Table>
+      </Box>
+
+      <Box className="Box" sx={{ border: "none" }}>
+        <Table style={{ width: "60%" }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>name</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {store.getState().category.categories.map((item) => (
+              <TableRow key={item.category_id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>
+                  <IconButton
+                    color="primary"
+                    onClick={() =>
+                      handleOpenEditModal(item.category_id, item.name)
+                    }
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    color="error"
+                    onClick={() => handleOpen(item.category_id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
 
       <Dialog open={editModalOpen} onClose={handleEditModalClose}>
         <DialogTitle>Edit Category</DialogTitle>
@@ -228,7 +244,7 @@ function AddCategory(): JSX.Element {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Container>
   );
 }
 
