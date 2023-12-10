@@ -187,16 +187,22 @@ function Photos(): JSX.Element {
                   <IconButton
                     sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                     aria-label={`info about ${item.description}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
                   >
-                    <InfoIcon />
                     <Grid
-                      onClick={() => handleEdit(item.photo_id)}
                       sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Stop event propagation
+                        handleEdit(item.photo_id);
+                      }}
                     >
                       <EditIcon />
                     </Grid>
                     <Grid
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation(); // Stop event propagation
                         setSelectedPhotoId(item.photo_id);
                         setDeleteDialogOpen(true);
                       }}

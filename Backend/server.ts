@@ -5,11 +5,13 @@ import express from "express";
 import fileUpload from "express-fileupload";
 import config from "./Utils/Config";
 import ErrorHandler from "./MiddleWare/route-not-found";
-import youtubeRouter from './Routes/YoutubeRoute';
 import AlbumRouter from './Routes/AlbumRoute';
 
 //create server
 const server = express();
+server.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
+server.use(bodyParser.urlencoded({limit: '50mb'}));
+server.use(bodyParser({limit: '50mb'}));
 
 //OUR MIDDLE WARE
 
@@ -26,7 +28,6 @@ server.use(express.static("upload"));
 server.use(fileUpload({ createParentPath: true }));
 
 //using routes => localhost:4000/api/v1/test/checkOK
-server.use("/api/v1/youtube", youtubeRouter);
 server.use("/api/v1/album", AlbumRouter);
 
 //handle errors(Route Not Found);
