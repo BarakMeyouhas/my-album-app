@@ -15,21 +15,16 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  InputBase,
   Paper,
   TextField,
-  ThemeProvider,
   Toolbar,
-  Tooltip,
   Typography,
-  alpha,
-  createTheme,
-  styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate, useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
 
 interface PixelsImage {
   id: number;
@@ -47,6 +42,8 @@ interface PixelsImage {
 }
 
 function Explore(): JSX.Element {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [images, setImages] = useState<PixelsImage[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState<PixelsImage | null>(null);
@@ -177,7 +174,8 @@ function Explore(): JSX.Element {
       </div>
       <div className="Explore">
         <Container maxWidth="xl">
-          <ImageList cols={4} gap={10}>
+          <ImageList cols={isSmallScreen ? 2 : 3} gap={12}>
+            {" "}
             {images.map((item) => (
               <ImageListItem
                 key={item.id}
@@ -197,23 +195,22 @@ function Explore(): JSX.Element {
                   loading="lazy"
                 />
                 <ImageListItemBar
-                title={item.alt}
-                subtitle={item.photographer}
-                sx={{
-                  visibility: "hidden",
-                  opacity: 0,
-                  transition: "visibility 0s, opacity 0.2s linear",
-                }}
-                actionIcon={
-                  <IconButton
-                    sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                    aria-label={`info about ${item.photographer}`}
-                  >
-                    <InfoIcon />
-                    
-                  </IconButton>
-                }
-              />
+                  title={item.alt}
+                  subtitle={item.photographer}
+                  sx={{
+                    visibility: "hidden",
+                    opacity: 0,
+                    transition: "visibility 0s, opacity 0.2s linear",
+                  }}
+                  actionIcon={
+                    <IconButton
+                      sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                      aria-label={`info about ${item.photographer}`}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
               </ImageListItem>
             ))}
           </ImageList>
@@ -231,13 +228,27 @@ function Explore(): JSX.Element {
       {/* Dialog Form */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Image Details</DialogTitle>
-        <DialogContent>
+        <DialogContent
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "auto",
+            width: "auto",
+          }}
+        >
+          {" "}
           {selectedImage && (
             <Paper>
               <img
                 src={selectedImage.src.original}
                 alt={selectedImage.alt}
-                style={{ maxWidth: "500px", maxHeight: "350px" }}
+                style={{
+                  maxWidth: isSmallScreen ? "100%" : "350px",
+                  maxHeight: isSmallScreen ? "auto" : "550px",
+                  width: "100%",
+                  height: "auto",
+                }}
               />
             </Paper>
           )}

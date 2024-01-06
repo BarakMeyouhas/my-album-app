@@ -104,14 +104,20 @@ function AddPhoto(): JSX.Element {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <br />
       <Box id="Header" sx={{ mb: 2 }}>
         <Typography variant="h4">Add Photo Form</Typography>
       </Box>
       <br />
-      <div className="AddPhoto" style={{ display: "flex" }}>
-        <Box className="Box" sx={{ mr: 2, border: "none", maxWidth: "50%" }}>
+      <div
+        className="AddPhoto"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <Box
+          className="Box"
+          sx={{ mr: 2, border: "none", maxWidth: "70%", margin: "auto" }}
+        >
           <form onSubmit={handleSubmit(send)}>
             <Typography variant="h6">Add Photo</Typography>
             <hr />
@@ -138,7 +144,11 @@ function AddPhoto(): JSX.Element {
               margin="normal"
             />
 
-            <select required {...register("category_id")}>
+            <select
+              required
+              {...register("category_id")}
+              style={{ width: "100%", padding: "10px", marginTop: "10px" }}
+            >
               <option disabled>Choose Category</option>
               {store.getState().category.categories.map((item) => (
                 <option key={item.category_id} value={item.category_id}>
@@ -159,7 +169,14 @@ function AddPhoto(): JSX.Element {
           </form>
         </Box>
 
-        <Box className="Box" sx={{ ml: 2, border: "none" }}>
+        <Box
+          className="Box"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {imageURL && (
             <div>
               <Typography variant="h6">Image Preview</Typography>

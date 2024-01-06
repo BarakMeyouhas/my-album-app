@@ -10,12 +10,10 @@ import { updatePhotoAction } from "../../redux/PhotosReducer";
 import {
   Box,
   Button,
-  Chip,
   Container,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
   Grid,
@@ -24,18 +22,17 @@ import {
   Paper,
   Select,
   SelectChangeEvent,
-  Slide,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { Photo } from "../../Modal/Photo";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -52,10 +49,12 @@ function Photos(): JSX.Element {
     console.log(store.getState().photos.allPhotos);
   }, []);
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const params = useParams();
-  const [selectedPhotoId, setSelectedPhotoId] = useState<number | null>(null); // Track the selected photo ID for deletion
-  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false); // State to control the visibility of the delete confirmation dialog
+  const [selectedPhotoId, setSelectedPhotoId] = useState<number | null>(null);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editDialogData, setEditDialogData] = useState<Photo | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
@@ -89,6 +88,7 @@ function Photos(): JSX.Element {
       setEditDialogOpen(true);
     }
   };
+
   const handleSaveEdit = async () => {
     try {
       if (!editDialogData) {
@@ -155,7 +155,7 @@ function Photos(): JSX.Element {
           <Typography variant="h4">My Photos</Typography>
         </Box>
         <br />
-        <ImageList cols={3} gap={12}>
+        <ImageList cols={isSmallScreen ? 2 : 3} gap={12}>
           {filteredPhotos.map((item) => (
             <ImageListItem
               className="SingleItem"
@@ -165,7 +165,7 @@ function Photos(): JSX.Element {
                   visibility: "visible",
                   opacity: 1,
                 },
-                cursor: "pointer", // Add cursor pointer for indicating it's clickable
+                cursor: "pointer",
               }}
               onClick={() => handlePhotoClick(item.URL)}
             >
@@ -194,7 +194,7 @@ function Photos(): JSX.Element {
                     <Grid
                       sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                       onClick={(e) => {
-                        e.stopPropagation(); // Stop event propagation
+                        e.stopPropagation();
                         handleEdit(item.photo_id);
                       }}
                     >
@@ -202,7 +202,7 @@ function Photos(): JSX.Element {
                     </Grid>
                     <Grid
                       onClick={(e) => {
-                        e.stopPropagation(); // Stop event propagation
+                        e.stopPropagation();
                         setSelectedPhotoId(item.photo_id);
                         setDeleteDialogOpen(true);
                       }}
@@ -306,14 +306,31 @@ function Photos(): JSX.Element {
       <Dialog
         open={isPhotoDialogOpen}
         onClose={() => setPhotoDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
       >
         <DialogTitle>Selected Photo</DialogTitle>
-        <DialogContent>
+        <DialogContent
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "auto",
+            width: "auto",
+          }}
+        >
+          {" "}
           {selectedPhotoUrl && (
             <Paper square elevation={3}>
               <img
                 src={selectedPhotoUrl}
-                style={{ maxWidth: "500px", maxHeight: "350px" }}
+                style={{
+                  maxWidth: isSmallScreen ? "100%" : "350px",
+                  maxHeight: isSmallScreen ? "auto" : "550px",
+                  width: "100%",
+                  height: "auto",
+                }}
+                alt="Selected Photo"
               />
             </Paper>
           )}

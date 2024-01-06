@@ -5,21 +5,6 @@ import {
   Container,
   TextField,
   Typography,
-} from "@mui/material";
-import "./AddCategory.css";
-import { useEffect, useState } from "react";
-import { Category } from "../../Modal/Category";
-import { useNavigate } from "react-router-dom";
-import { store } from "../../redux/Store";
-import { useSelector } from "react-redux";
-import {
-  addCategoryAction,
-  deleteCategoryAction,
-  downloadCategoriesAction,
-  updateCategoryAction,
-} from "../../redux/CategoriesReducer";
-import axios from "axios";
-import {
   Table,
   TableHead,
   TableBody,
@@ -33,7 +18,17 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect, useState } from "react";
 import { categories } from "../../../../../Backend/Models/Category";
+import { useNavigate } from "react-router-dom";
+import { store } from "../../redux/Store";
+import {
+  addCategoryAction,
+  deleteCategoryAction,
+  downloadCategoriesAction,
+  updateCategoryAction,
+} from "../../redux/CategoriesReducer";
+import axios from "axios";
 
 function AddCategory(): JSX.Element {
   const [newCategory, setCategory] = useState("");
@@ -105,6 +100,7 @@ function AddCategory(): JSX.Element {
     setEditCategoryName(categoryName);
     setEditModalOpen(true);
   };
+
   const handleEditModalClose = () => {
     setEditItemId(null);
     setEditCategoryName("");
@@ -125,6 +121,7 @@ function AddCategory(): JSX.Element {
       handleClose();
     }
   };
+
   const handleOpen = (categoryId: number) => {
     setDeleteItemId(categoryId);
     setOpen(true);
@@ -136,11 +133,18 @@ function AddCategory(): JSX.Element {
   };
 
   return (
-    <Container sx={{display:"flex", justifyContent:"center"}} className="AddCategory">
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+      className="AddCategory"
+    >
       <Box
         className="Box"
         id="addCategory"
-        sx={{ mr: 2, border: "none", maxWidth: "50%" }}
+        sx={{ border: "none", maxWidth: "50%", justifyContent: "center", margin:"0 auto"}}
       >
         <Typography variant="h4" className="Headline">
           Add Category
@@ -167,7 +171,7 @@ function AddCategory(): JSX.Element {
       </Box>
 
       <Box className="Box" sx={{ border: "none" }}>
-        <Table style={{ width: "60%" }}>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>name</TableCell>
