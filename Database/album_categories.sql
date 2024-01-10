@@ -26,7 +26,7 @@ CREATE TABLE `categories` (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (2,'family'),(3,'sport'),(11,'food'),(12,'clothes'),(13,'nature'),(14,'Animals'),(15,'People'),(16,'Cars'),(17,'Fruits'),(18,'Cities'),(19,'Buildings');
+INSERT INTO `categories` VALUES (2,'family'),(3,'sport'),(11,'food'),(12,'clothes'),(13,'nature'),(14,'Animals'),(15,'People'),(16,'Cars'),(17,'Fruits'),(18,'Cities'),(19,'Buildings'),(20,'Army');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-10 16:05:25
+-- Dump completed on 2024-01-10 12:29:09
